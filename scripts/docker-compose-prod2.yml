@@ -1,0 +1,59 @@
+# docker compose -f docker-compose-prod2.yml down && docker volume rm postgres_data_kc_09_26_23
+# docker compose -f docker-compose-prod2.yml up
+version: "3.9"
+
+services:
+  postgres_kc_09_26_23:
+    container_name: postgres_kc_09_26_23
+    image: postgres:16
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_kc_09_26_23:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak_DB
+      POSTGRES_USER: keycloak_user
+      POSTGRES_PASSWORD: postgres_password
+    networks:
+      - keycloak_net
+
+  keycloak_09_26_23:
+    container_name: keycloak_09_26_23
+    image: quay.io/keycloak/keycloak:22.0
+    command: [ "start" ]
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_kc_09_26_23
+      KC_DB_URL_DATABASE: keycloak_DB
+      KC_DB_USERNAME: keycloak_user
+      KC_DB_PASSWORD: postgres_password
+      KC_DB_SCHEMA: public
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_ADMIN: localhost
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/localhost.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/localhost.key
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: "true"
+    volumes:
+      - ./certs:/etc/x509/https
+      - ../themes/teacher-portal/base:/opt/keycloak/themes/bases/teacher-portal
+      - ../themes/teacher-portal/teacher-portal:/opt/keycloak/themes/teacher-portal
+      - ../themes/student-portal/base:/opt/keycloak/themes/bases/student-portal
+      - ../themes/student-portal/student-portal:/opt/keycloak/themes/student-portal
+    depends_on:
+      - postgres_kc_09_26_23
+    networks:
+      - keycloak_net
+
+volumes:
+  postgres_data_kc_09_26_23:
+    name: postgres_data_kc_09_26_23
+
+networks:
+  keycloak_net:
+    name: keycloak_net
+    driver: bridge

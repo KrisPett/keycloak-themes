@@ -1,0 +1,59 @@
+#### Setup
+
+```
+docker stop keycloak_name && docker rm keycloak_name && \
+docker stop postgres_name && docker rm postgres_name && \
+docker volume rm postgres_data \
+docker-compose up -d
+```
+
+##### Running on ports 8080
+
+```
+docker exec -it keycloak_prod sh
+http://0.0.0.0:8080/auth/
+http://localhost:8080/auth/
+```
+
+##### List databases (keycloak)
+
+```
+docker exec -it postgres_name psql -U postgres -c "\l"
+```
+
+##### Manually Setup Keycloak
+
+```
+Create Realm testrealms
+Create Client testclient
+Create user (user@email.com)
+Create password (user@email.com)
+Realm Settings -> Themes -> Login Theme -> testtheme
+
+Keycloak Templates
+Login Theme -> keycloak
+Account Theme -> keycloak
+Admin Theme -> keycloak
+Email Theme ->
+```
+
+##### Copy Keycloak theme to Directory
+
+```
+docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak/ ./themes/new-theme
+
+docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak ./themes/experiment-theme/experiment-theme
+docker cp keycloak_prod:/opt/jboss/keycloak/themes/base ./themes/experiment-theme/base
+```
+
+##### Setup for dev use
+
+```
+<script>
+// refresh every 1 sec
+    setInterval(() => {
+      window.location.reload();
+        console.log("refreshed")
+    }, 1000);
+</script>
+```

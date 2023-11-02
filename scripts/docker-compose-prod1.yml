@@ -1,0 +1,61 @@
+# docker stop keycloak_prod && docker rm keycloak_prod && docker stop postgres_prod && docker rm postgres_prod && docker volume rm postgres_prod_data
+# docker-compose -f docker-compose-prod.yml up
+# docker-compose -f docker-compose-prod.yml down
+# docker exec -it keycloak_prod sh
+
+version: '3.5'
+services:
+  postgres_prod:
+    container_name: postgres_prod
+    image: postgres:10.4
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    networks:
+      - keycloak_net
+
+  keycloak_prod:
+    container_name: keycloak_prod
+    image: quay.io/keycloak/keycloak:19.0.3-legacy
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres_prod
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: POSTGRES_PASSWORD
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+    volumes:
+      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate
+      - ../themes/real-estate/base/:/opt/keycloak/themes/base
+      - ../themes/real-estate/base/:/opt/keycloak/themes/base:/opt/jboss/keycloak/themes/mykeycloak/
+      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate:/opt/jboss/keycloak/themes/chainbot/
+
+    #      - ./realm-export.json:/tmp/realm-export.json
+#      - ../themes/experiment-theme/base:/opt/keycloak/themes/base
+#      - ../themes/experiment-theme/experiment-theme:/opt/keycloak/themes/experiment-theme
+    depends_on:
+      - postgres_prod
+    networks:
+      - keycloak_net
+
+volumes:
+  postgres_prod_data:
+    name: postgres_prod_data
+
+networks:
+  keycloak_net:
+    name: keycloak_net
+    driver: bridge
+

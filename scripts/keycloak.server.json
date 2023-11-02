@@ -1,0 +1,7 @@
+{
+  "theme": {
+    "cacheTemplates": false,
+    "cacheThemes": false,
+    "staticMaxAge": -1
+  }
+}

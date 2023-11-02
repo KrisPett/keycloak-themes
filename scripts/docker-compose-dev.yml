@@ -1,0 +1,40 @@
+# docker stop keycloak_dev && docker rm keycloak_dev && docker-compose -f docker-compose-dev.yml up
+# docker-compose -f docker-compose-dev.yml up
+# docker-compose -f docker-compose-dev.yml down
+# docker exec -it keycloak_dev sh -c "cat opt/jboss/keycloak/themes/new-theme/login/resources/css/login.css"
+# docker exec -it keycloak_dev sh
+
+# dev will start at http://localhost:8080/, if redirected to /auth try another browser
+
+version: '3.5'
+services:
+  keycloak_dev:
+    container_name: keycloak_dev
+    image: quay.io/keycloak/keycloak:19.0.3
+    command: ["start-dev"]
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ../themes/experiment-theme-1/experiment-theme-1/:/opt/keycloak/themes/experiment-theme-1/
+      - ../themes/experiment-theme-1/base/:/opt/keycloak/themes/bases/experiment-theme-1/
+      - ../themes/student-portal/student-portal/:/opt/keycloak/themes/student-portal/
+      - ../themes/student-portal/base/:/opt/keycloak/themes/bases/student-portal/
+      - ../themes/teacher-portal/teacher-portal/:/opt/keycloak/themes/teacher-portal/
+      - ../themes/teacher-portal/base/:/opt/keycloak/themes/bases/teacher-portal/
+      - ../themes/tyh-nu/tyh-nu/:/opt/keycloak/themes/tyh-nu/
+      - ../themes/tyh-nu/base/:/opt/keycloak/themes/bases/tyh-nu/
+
+      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate/
+      - ../themes/real-estate/base/:/opt/keycloak/themes/bases/real-estate/
+    networks:
+      - keycloak_net
+
+networks:
+  keycloak_net:
+    name: keycloak_net
+    driver: bridge
+
