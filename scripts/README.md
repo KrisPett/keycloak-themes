@@ -42,8 +42,8 @@ Email Theme ->
 ```
 sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak/ ./themes/new-theme
 
-sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak ./themes/experiment-theme/experiment-theme
-sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/base ./themes/experiment-theme/base
+sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak ./themes/experiment-theme-1/experiment-theme
+sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/base ./themes/experiment-theme-1/base
 
 sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak ./themes/real-estate
 sudo rm -r ./themes/real-estate
