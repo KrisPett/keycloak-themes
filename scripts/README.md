@@ -39,6 +39,26 @@ Email Theme ->
 
 ##### Copy Keycloak theme to Directory
 
+**You can copy template.tfl and place it in theme folder**
+
+Change favicon.ico
+
+```
+`-- themes
+    `-- myTheme
+       `-- login
+           |-- resources
+           |   |-- css
+           |   |   |-- login.css
+           |   |   `-- styles.css
+           |   `-- img
+           |       |-- favicon.ico
+           |       |-- img-bg.png
+           |       `-- img-text.png
+           |-- template.ftl
+           `-- theme.properties
+```
+
 ```
 sudo docker cp keycloak_prod:/opt/jboss/keycloak/themes/keycloak/ ./themes/new-theme
 
