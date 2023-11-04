@@ -2,14 +2,6 @@
 <!DOCTYPE html>
 <html class="${properties.kcHtmlClass!}">
 
-<script>
-    // refresh every 1 sec
-    setInterval(() => {
-        window.location.reload();
-        console.log("refreshed")
-    }, 10000);
-</script>
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
