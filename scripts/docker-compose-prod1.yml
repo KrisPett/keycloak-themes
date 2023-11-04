@@ -1,6 +1,10 @@
 # docker stop keycloak_prod && docker rm keycloak_prod && docker stop postgres_prod && docker rm postgres_prod && docker volume rm postgres_prod_data
-# docker-compose -f docker-compose-prod.yml up
-# docker-compose -f docker-compose-prod.yml down
+
+# Need to do a complete cleanup before starting container to see new changes
+# docker stop keycloak_prod && docker rm keycloak_prod && docker stop postgres_prod && docker rm postgres_prod && docker volume rm postgres_prod_data && docker compose -f docker-compose-prod1.yml up
+
+# docker compose -f docker-compose-prod1.yml up
+# docker compose -f docker-compose-prod1.yml down
 # docker exec -it keycloak_prod sh
 
 version: '3.5'
@@ -32,15 +36,15 @@ services:
       DB_USER: keycloak
       DB_SCHEMA: public
       DB_PASSWORD: POSTGRES_PASSWORD
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_USER: a
+      KEYCLOAK_PASSWORD: a
       PROXY_ADDRESS_FORWARDING: "true"
-      KEYCLOAK_IMPORT: /tmp/realm-export.json
+#      KEYCLOAK_IMPORT: /tmp/realm-export.json
     volumes:
-      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate
-      - ../themes/real-estate/base/:/opt/keycloak/themes/base
-      - ../themes/real-estate/base/:/opt/keycloak/themes/base:/opt/jboss/keycloak/themes/mykeycloak/
-      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate:/opt/jboss/keycloak/themes/chainbot/
+      - ../themes/real-estate/:/opt/jboss/keycloak/themes/real-estate/
+#      - ../themes/real-estate/base/:/opt/jboss/keycloak/themes/real-estate/base
+#      - ../themes/real-estate/base/:/opt/keycloak/themes/base:/opt/jboss/keycloak/themes/mykeycloak/
+#      - ../themes/real-estate/real-estate/:/opt/keycloak/themes/real-estate:/opt/jboss/keycloak/themes/chainbot/
 
     #      - ./realm-export.json:/tmp/realm-export.json
 #      - ../themes/experiment-theme/base:/opt/keycloak/themes/base
