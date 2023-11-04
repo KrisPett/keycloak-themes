@@ -7,7 +7,7 @@
     setInterval(() => {
         window.location.reload();
         console.log("refreshed")
-    }, 1000);
+    }, 10000);
 </script>
 
 <head>
